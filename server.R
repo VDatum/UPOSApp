@@ -97,14 +97,16 @@ shinyServer(
     })
     
     output$plot4 <- renderPlot({
-
-      x<- udpipe_annotate(english_model(), x= Dataset())
-      x<-as.data.frame(x)
-      set1 <- txt_freq(x$upos)
+       if(is.null(input$file)){
+        return(NULL)
+      }
+      else{
+      set1 <- txt_freq(annot.obj$upos)
       set1$key <- factor(set1$key, levels = rev(set1$key))
       barchart(key ~ freq, data = set1, col = "cadetblue", 
                main = "UPOS (Universal Parts of Speech)\n frequency of occurrence", 
                xlab = "Freq")
+        }
       
     })
       
